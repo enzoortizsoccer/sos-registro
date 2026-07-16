@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sergio Ortiz Soccer - Registration / Inscripción</title>
+<title>SOS Registration</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a18;min-height:100vh;}
@@ -117,7 +117,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="field"><label id="l-method">Payment Method <span class="required">*</span></label>
         <select id="f-method">
           <option value="">Select / Seleccionar</option>
-          <option>Zelle</option><option>Card (3% fee)</option><option>Cash</option><option>Check</option>
+          <option>Zelle</option>
         </select>
       </div>
     </div>
@@ -187,7 +187,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-const SCRIPT_URL = "APPS_SCRIPT_URL_HERE";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNRtkYWN0cnAlBZCZU1Zp-hMgamGMn-UtE4ejSJl1CBWi3zk895mmExCGv1j8oimrpHA/exec";
 let lang = "en";
 
 const t = {
@@ -305,7 +305,12 @@ async function submitForm(){
   };
 
   try{
-    await fetch(SCRIPT_URL,{method:"POST",body:JSON.stringify(payload)});
+    const params = new URLSearchParams();
+    Object.keys(payload).forEach(k => params.append(k, payload[k]));
+    const url = SCRIPT_URL + '?' + params.toString();
+    const img = new Image();
+    img.src = url;
+    await new Promise(r => setTimeout(r, 2000));
     document.getElementById("form-wrapper").style.display="none";
     document.getElementById("s-title").textContent=t[lang]["s-title"];
     document.getElementById("s-sub").innerHTML=t[lang]["s-sub"];
